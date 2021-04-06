@@ -32,12 +32,14 @@
                     <button class="btn btn-sm btn-primary" (click)="EditRelation(r)">Change</button>
                 </td>
             </tr>
-            <input type="button" value="Add relation" class="btn btn-default" (click)="add()" />
-            <input type="button" value="Apply filter" class="btn btn-default" (click)="ApplyFilter()" />
-            <input type="button" value="Delete" class="btn btn-default" (click)="DeleteRelations()">
-            <div>
-                <label>Category:</label>
-                <div>
+            <input type="button" value="Add relation" class="btn btn-sm btn-primary" (click)="add()" />
+            <input type="button" value="Apply filter" class="btn btn-sm btn-primary" (click)="ApplyFilter()" />
+            <input type="button" value="Delete" class="btn btn-sm btn-primary" (click)="DeleteRelations()">
+            <div class="row">
+                <div class="col-25">
+                    <label>Category:</label>
+                </div>
+                <div class="col-75">
                     <select [(ngModel)]="filterByCategoryName" name="filtercategory" title="Category name">
                         <option value="" selected></option>
                         <option *ngFor="let category of categories" [value]="category.Name">
@@ -46,16 +48,18 @@
                     </select>
                 </div>
             </div>
-            <div>
-                <label>Property to sort by:</label>
-                <div>
-                    <select [(ngModel)]="sortByProperty" name="Property to sort by">
-                        <option value="" selected></option>
+            <div class="row">
+                <div class="col-25">
+                    <label>Property to sort:</label>
+                </div>
+                <div class="col-75">
+                    <select class="order-select" [(ngModel)]="sortByProperty" name="Property to sort by">
+                        <option selected></option>
                         <option>Name</option>
                         <option>FullName</option>
                         <option>TelephoneNumber</option>
                         <option>Email</option>
-                        <option>Street></option>
+                        <option>Street</option>
                         <option>City</option>
                         <option>Country</option>
                         <option>PostalCode</option>
@@ -63,11 +67,13 @@
                     </select>
                 </div>
             </div>
-            <div>
-                <label>Order</label>
-                <div>
-                    <select [(ngModel)]="orderBy" name="order">
-                        <option value=0 selected></option>
+            <div class="row">
+                <div class="col-25">
+                    <label>Order</label>
+                </div>
+                <div class="col-75">
+                    <select class="order-select" [(ngModel)]="orderBy" name="order">
+                        <option value=0 selected>None</option>
                         <option value=1>Ascending</option>
                         <option value=2>Descending</option>
                     </select>
@@ -79,170 +85,274 @@
 
 <!--шаблон для редактирования-->
 <ng-template #edit>
-    <form #relationForm="ngForm" novalidate (ngSubmit)="Save(relationForm)">
-        <fieldset>
-            <legend>Add Relation</legend>
-            <div class="form-group">
-                <label>Name: </label>
-                <input form="relationForm" required type="text" [(ngModel)]="relation.Name" name="Name" class="form-control"
-                    #name="ngModel" />
-                <div *ngIf="name.invalid && name.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Full Name: </label>
-                <input required type="text" [(ngModel)]="relation.FullName" name="FullName" class="form-control"
-                    #fullName="ngModel" />
-                <div *ngIf="fullName.invalid && fullName.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Telephone Number: </label>
-                <input required pattern="^\+?[0-9]{12}" type="text" [(ngModel)]="relation.TelephoneNumber" name="TelephoneNumber"
-                    class="form-control" #number="ngModel" />
-                <div *ngIf="number.touched && number.invalid" style="color: red;"><strong> Required field</strong></div>
-                <div *ngIf="number.errors?.pattern" style="color: red;"><strong>Wrong format</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Email: </label>
-                <input type="text" pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" required
-                    [(ngModel)]="relation.Email" name="Email" class="form-control" #mail="ngModel" />
-                <div *ngIf="mail.touched && mail.invalid" style="color: red;"><strong> Required field</strong></div>
-                <div *ngIf="mail.errors?.pattern" style="color: red;"><strong>Wrong format</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Street: </label>
-                <input required type="text" [(ngModel)]="relation.Street" name="Street" class="form-control"
-                    #street="ngModel" />
-                <div *ngIf="street.invalid && street.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>City: </label>
-                <input required type="text" [(ngModel)]="relation.City" name="City" class="form-control" #city="ngModel" />
-                <div *ngIf="city.invalid && city.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Country: </label>
-                <select required [(ngModel)]="relation.Country" name="Country" #country="ngModel">
-                    <option value="" selected></option>
-                    <option *ngFor="let country of countries" [value]="country.Name">
-                        {{country.Name}}
-                    </option>
-                </select>
-                <div *ngIf="country.invalid && country.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Postal Code: </label>
-                <input required type="text" [(ngModel)]="relation.PostalCode" name="PostalCode" class="form-control"
-                    #pc="ngModel" />
-                <div *ngIf="pc.invalid && pc.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Street Number: </label>
-                <input required type="number" [(ngModel)]="relation.StreetNumber" name="StreetNumber" class="form-control"
-                    #streetNumber="ngModel" />
-                <div *ngIf="streetNumber.invalid && streetNumber.touched" style="color: red;"><strong> Required
-                        field</strong></div>
-            </div>
-            <div>
-                <label>Categories: </label>
-                <select required [(ngModel)]="relation.Categories" name="Categories" multiple="multiple"
-                    #category="ngModel">
-                    <option *ngFor="let category of categories" [value]="category.Name">
-                        {{category.Name}}
-                    </option>
-                </select>
-                <div *ngIf="category.invalid && category.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div>
-                <button class="btn btn-default" (click)="Cancel()">Back to list</button>
-                <input type="submit" value="Edit" class="btn btn-default" [disabled]="relationForm.invalid">
-            </div>
-        </fieldset>
-    </form>
+    <div class="container">
+        <form #relationForm="ngForm" novalidate (ngSubmit)="Save(relationForm)">
+            <fieldset>
+                <legend>Edit Relation</legend>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Name: </label>
+                    </div>
+                    <div class="col-75">
+                        <input form="relationForm" required type="text" [(ngModel)]="relation.Name" name="Name"
+                            class="form-control" #name="ngModel" />
+                    </div>
+                    <div *ngIf="name.invalid && name.touched" style="color: red;"><strong> Required field</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Full Name: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="text" [(ngModel)]="relation.FullName" name="FullName" class="form-control"
+                            #fullName="ngModel" />
+                    </div>
+                    <div *ngIf="fullName.invalid && fullName.touched" style="color: red;"><strong> Required
+                            field</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Telephone Number: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required pattern="^\+?[0-9]{12}" type="text" [(ngModel)]="relation.TelephoneNumber"
+                            name="TelephoneNumber" class="form-control" #number="ngModel" />
+                    </div>
+                    <div *ngIf="number.touched && number.invalid" style="color: red;"><strong> Required field</strong>
+                    </div>
+                    <div *ngIf="number.errors?.pattern" style="color: red;"><strong>Wrong format</strong>
+                        Example: +380662562323 or 380662562323
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Email: </label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text"
+                            pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" required
+                            [(ngModel)]="relation.Email" name="Email" class="form-control" #mail="ngModel" />
+                    </div>
+                    <div *ngIf="mail.touched && mail.invalid" style="color: red;"><strong> Required field</strong></div>
+                    <div *ngIf="mail.errors?.pattern" style="color: red;"><strong>Wrong format</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Street: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="text" [(ngModel)]="relation.Street" name="Street" class="form-control"
+                            #street="ngModel" />
+                    </div>
+                    <div *ngIf="street.invalid && street.touched" style="color: red;"><strong> Required field</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>City: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="text" [(ngModel)]="relation.City" name="City" class="form-control"
+                            #city="ngModel" />
+                    </div>
+                    <div *ngIf="city.invalid && city.touched" style="color: red;"><strong> Required field</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Country: </label>
+                    </div>
+                    <div class="col-75">
+                        <select required [(ngModel)]="relation.Country" name="Country" #country="ngModel">
+                            <option value="" selected></option>
+                            <option *ngFor="let country of countries" [value]="country.Name">
+                                {{country.Name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="country.invalid && country.touched" style="color: red;"><strong> Required field</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Postal Code: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="text" [(ngModel)]="relation.PostalCode" name="PostalCode"
+                            class="form-control" #pc="ngModel" />
+                    </div>
+                    <div *ngIf="pc.invalid && pc.touched" style="color: red;"><strong> Required field</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Street Number: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="number" [(ngModel)]="relation.StreetNumber" name="StreetNumber"
+                            class="form-control" #streetNumber="ngModel" />
+                    </div>
+                    <div *ngIf="streetNumber.invalid && streetNumber.touched" style="color: red;">
+                        <strong> Required field</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Categories: </label>
+                    </div>
+                    <div class="col-75">
+                        <select required [(ngModel)]="relation.Categories" name="Categories" multiple="multiple"
+                            #category="ngModel" size="auto">
+                            <option *ngFor="let category of categories" [value]="category.Name">
+                                {{category.Name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="category.invalid && category.touched" style="color: red;">
+                        <strong> Required field</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-sm btn-primary" (click)="Cancel()">Back to list</button>
+                    <input type="submit" value="Edit" class="btn btn-sm btn-primary" [disabled]="relationForm.invalid">
+                </div>
+            </fieldset>
+        </form>
+    </div>
 </ng-template>
 
 <!--шаблон для добавления-->
 <ng-template #create>
-    <form #relationForm="ngForm" novalidate (ngSubmit)="Save(relationForm)">
-        <fieldset>
-            <legend>Add Relation</legend>
-            <div class="form-group">
-                <label>Name: </label>
-                <input form="relationForm" required type="text" [(ngModel)]="relation.Name" name="Name" class="form-control"
-                    #name="ngModel" />
-                <div *ngIf="name.invalid && name.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Full Name: </label>
-                <input required type="text" [(ngModel)]="relation.FullName" name="FullName" class="form-control"
-                    #fullName="ngModel" />
-                <div *ngIf="fullName.invalid && fullName.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Telephone Number: </label>
-                <input required pattern="^\+?[0-9]{12}" type="text" [(ngModel)]="relation.TelephoneNumber" name="TelephoneNumber"
-                    class="form-control" #number="ngModel" />
-                <div *ngIf="number.touched && number.invalid" style="color: red;"><strong> Required field</strong></div>
-                <div *ngIf="number.errors?.pattern" style="color: red;"><strong>Wrong format</strong>
-                    Example: 380*********
+    <div class="container">
+        <form #relationForm="ngForm" novalidate (ngSubmit)="Save(relationForm)">
+            <fieldset>
+                <legend>Add Relation</legend>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Name: </label>
+                    </div>
+                    <div class="col-75">
+                        <input form="relationForm" required type="text" [(ngModel)]="relation.Name" name="Name"
+                            class="form-control" #name="ngModel" />
+                    </div>
+                    <div *ngIf="name.invalid && name.touched" style="color: red;"><strong> Required field</strong></div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Email: </label>
-                <input type="text" pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" required
-                    [(ngModel)]="relation.Email" name="Email" class="form-control" #mail="ngModel" />
-                <div *ngIf="mail.touched && mail.invalid" style="color: red;"><strong> Required field</strong></div>
-                <div *ngIf="mail.errors?.pattern" style="color: red;"><strong>Wrong format</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Street: </label>
-                <input required type="text" [(ngModel)]="relation.Street" name="Street" class="form-control"
-                    #street="ngModel" />
-                <div *ngIf="street.invalid && street.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>City: </label>
-                <input required type="text" [(ngModel)]="relation.City" name="City" class="form-control" #city="ngModel" />
-                <div *ngIf="city.invalid && city.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Country: </label>
-                <select required [(ngModel)]="relation.Country" name="Country" #country="ngModel">
-                    <option value="" selected></option>
-                    <option *ngFor="let country of countries" [value]="country.Name">
-                        {{country.Name}}
-                    </option>
-                </select>
-                <div *ngIf="country.invalid && country.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Postal Code: </label>
-                <input required type="text" [(ngModel)]="relation.PostalCode" name="PostalCode" class="form-control"
-                    #pc="ngModel" />
-                <div *ngIf="pc.invalid && pc.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div class="form-group">
-                <label>Street Number: </label>
-                <input required type="number" [(ngModel)]="relation.StreetNumber" name="StreetNumber" class="form-control"
-                    #streetNumber="ngModel" />
-                <div *ngIf="streetNumber.invalid && streetNumber.touched" style="color: red;"><strong> Required
-                        field</strong></div>
-            </div>
-            <div>
-                <label>Categories: </label>
-                <select required [(ngModel)]="relation.Categories" name="Categories" multiple="multiple"
-                    #category="ngModel">
-                    <option *ngFor="let category of categories" [value]="category.Name">
-                        {{category.Name}}
-                    </option>
-                </select>
-                <div *ngIf="category.invalid && category.touched" style="color: red;"><strong> Required field</strong></div>
-            </div>
-            <div>
-                <button class="btn btn-default" (click)="Cancel()">Back to list</button>
-                <input type="submit" value="Create" class="btn btn-default" [disabled]="relationForm.invalid">
-            </div>
-        </fieldset>
-    </form>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Full Name: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="text" [(ngModel)]="relation.FullName" name="FullName" class="form-control"
+                            #fullName="ngModel" />
+                    </div>
+                    <div *ngIf="fullName.invalid && fullName.touched" style="color: red;"><strong> Required
+                            field</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Telephone Number: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required pattern="^\+?[0-9]{12}" type="text" [(ngModel)]="relation.TelephoneNumber"
+                            name="TelephoneNumber" class="form-control" #number="ngModel" />
+                    </div>
+                    <div *ngIf="number.touched && number.invalid" style="color: red;"><strong> Required field</strong>
+                    </div>
+                    <div *ngIf="number.errors?.pattern" style="color: red;"><strong>Wrong format</strong>
+                        Example: +380662562323 or 380662562323
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Email: </label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text"
+                            pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" required
+                            [(ngModel)]="relation.Email" name="Email" class="form-control" #mail="ngModel" />
+                    </div>
+                    <div *ngIf="mail.touched && mail.invalid" style="color: red;"><strong> Required field</strong></div>
+                    <div *ngIf="mail.errors?.pattern" style="color: red;"><strong>Wrong format</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Street: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="text" [(ngModel)]="relation.Street" name="Street" class="form-control"
+                            #street="ngModel" />
+                    </div>
+                    <div *ngIf="street.invalid && street.touched" style="color: red;"><strong> Required field</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>City: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="text" [(ngModel)]="relation.City" name="City" class="form-control"
+                            #city="ngModel" />
+                    </div>
+                    <div *ngIf="city.invalid && city.touched" style="color: red;"><strong> Required field</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Country: </label>
+                    </div>
+                    <div class="col-75">
+                        <select required [(ngModel)]="relation.Country" name="Country" #country="ngModel">
+                            <option value="" selected></option>
+                            <option *ngFor="let country of countries" [value]="country.Name">
+                                {{country.Name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="country.invalid && country.touched" style="color: red;"><strong> Required field</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Postal Code: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="text" [(ngModel)]="relation.PostalCode" name="PostalCode"
+                            class="form-control" #pc="ngModel" />
+                    </div>
+                    <div *ngIf="pc.invalid && pc.touched" style="color: red;"><strong> Required field</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Street Number: </label>
+                    </div>
+                    <div class="col-75">
+                        <input required type="number" [(ngModel)]="relation.StreetNumber" name="StreetNumber"
+                            class="form-control" #streetNumber="ngModel" />
+                    </div>
+                    <div *ngIf="streetNumber.invalid && streetNumber.touched" style="color: red;">
+                        <strong> Required field</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Categories: </label>
+                    </div>
+                    <div class="col-75">
+                        <select required [(ngModel)]="relation.Categories" name="Categories" multiple="multiple"
+                            #category="ngModel" size="auto">
+                            <option *ngFor="let category of categories" [value]="category.Name">
+                                {{category.Name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="category.invalid && category.touched" style="color: red;">
+                        <strong> Required field</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-sm btn-primary" (click)="Cancel()">Back to list</button>
+                    <input type="submit" value="Create" class="btn btn-sm btn-primary" [disabled]="relationForm.invalid">
+                </div>
+            </fieldset>
+        </form>
+    </div>
 </ng-template>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
