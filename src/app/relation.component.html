@@ -1,0 +1,202 @@
+<form #myForm="ngForm" novalidate>
+    <table *ngIf="tableMode; else create" class="table table-striped">
+        <ng-template [ngIf]="relation.Id == undefined"[ngIfElse]="edit">
+            <thead>
+                <h1>List Relations</h1>
+                <tr>
+                    <td>Name</td>
+                    <td>FullName</td>
+                    <td>Telephone Number</td>
+                    <td>Email</td>
+                    <td>Street</td>
+                    <td>City</td>
+                    <td>Country</td>
+                    <td>Postal Code</td>
+                    <td>Street Number</td>
+                    <td>Delete</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let r of relations">
+                    <td>{{r.Name}}</td>
+                    <td>{{r.FullName}}</td>
+                    <td>{{r.TelephoneNumber}}</td>
+                    <td>{{r.Email}}</td>
+                    <td>{{r.Street}}</td>
+                    <td>{{r.City}}</td>
+                    <td>{{r.Country}}</td>
+                    <td>{{r.PostalCode}}</td>
+                    <td>{{r.StreetNumber}}</td>
+                    <td><input type="checkbox" (click)="markForDelete(r)"></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="EditRelation(r)">Change</button>
+                    </td>
+                </tr>
+                <input type="button" value="Add relation" class="btn btn-default" (click)="add()"/>
+                <input type="button" value="Apply filter" class="btn btn-default" (click)="ApplyFilter()"/>
+                <input type="button" value="Delete" class="btn btn-default" (click)="DeleteRelations()">
+                    <div>
+                        <label>Category:</label>
+                        <div>
+                            <select [(ngModel)] = "filterByCategoryName" name="Category name" title="Category name">
+                                <option value="" selected></option>
+                                <option *ngFor="let category of categories" [value]="category.Name">
+                                    {{category.Name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Property to sort by:</label>
+                        <div>
+                            <select [(ngModel)] = "sortByProperty" name="Property to sort by">
+                                <option value="" selected></option>
+                                <option>Name</option>
+                                <option>FullName</option>
+                                <option>TelephoneNumber</option>
+                                <option>Email</option>    
+                                <option>Street></option>   
+                                <option>City</option>
+                                <option>Country</option>
+                                <option>PostalCode</option>
+                                <option>StreetNumber</option>    
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Order</label>
+                        <div>
+                            <select [(ngModel)] = "orderBy" name="Order">
+                                <option value=0 selected></option>
+                                <option value=1>Ascending</option>
+                                <option value=2>Descending</option>
+                            </select>
+                        </div>
+                    </div>
+            </tbody>
+        </ng-template>
+    </table>
+</form>
+     
+<!--шаблон для редактирования-->
+<ng-template #edit>
+    <fieldset>
+        <legend>Edit Relation</legend>
+    <div>
+        <label>Name: </label>
+        <input type="text" [(ngModel)]="relation.Name" class="form-control"/>
+    </div>
+    <div>
+        <label>Full Name: </label>
+        <input type="text" [(ngModel)]="relation.FullName" class="form-control"/>
+   </div>
+    <div>
+        <label>Telephone Number: </label>
+        <input type="text" [(ngModel)]="relation.TelephoneNumber" class="form-control"/>
+    </div>
+    <div>
+        <label>Email: </label>
+        <input type="text" [(ngModel)]="relation.Email" class="form-control"/>
+    </div>
+    <div>
+        <label>Street: </label>
+        <input type="text" [(ngModel)]="relation.Street" class="form-control"/>
+    </div>
+    <div>
+        <label>City: </label>
+        <input type="text" [(ngModel)]="relation.City" class="form-control"/>
+    </div>
+    <div>
+        <label>Country: </label>
+        <select [(ngModel)] = "relation.Country" name="country" >
+            <option value="" selected></option>
+            <option *ngFor="let country of countries" [value]="country.Name">
+                {{country.Name}}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label>Postal Code: </label>
+        <input type="text" [(ngModel)]="relation.PostalCode" class="form-control"/>
+    </div>
+    <div>
+        <label>Street Number: </label>
+        <input type="number" [(ngModel)]="relation.StreetNumber" class="form-control" />
+    </div>
+    <div>
+        <label>Categories: </label>
+         <select [(ngModel)] = "relation.Categories" id="relation-category" multiple="multiple">
+            <option *ngFor="let category of categories" [value]="category.Name">
+                {{category.Name}}
+            </option>
+        </select>
+    </div>
+        <div>
+            <button  class="btn btn-default" (click)="Save(myForm)">Edit</button>
+            <button class="btn btn-default" (click)="Cancel()">Back to list</button>
+        </div>
+    </fieldset>
+</ng-template>
+ 
+<!--шаблон для добавления-->
+<ng-template #create>
+    <fieldset>
+        <legend>Add Relation</legend>
+    <div>
+        <label>Name: </label>
+        <input type="text" [(ngModel)]="relation.Name" class="form-control"/>
+    </div>
+    <div>
+        <label>Full Name: </label>
+        <input type="text" [(ngModel)]="relation.FullName" class="form-control"/>
+   </div>
+    <div>
+        <label>Telephone Number: </label>
+        <input type="text" [(ngModel)]="relation.TelephoneNumber" class="form-control"/>
+    </div>
+    <div>
+        <label>Email: </label>
+        <input type="text" [(ngModel)]="relation.Email" class="form-control"/>
+    </div>
+    <div>
+        <label>Street: </label>
+        <input type="text" [(ngModel)]="relation.Street" class="form-control"/>
+    </div>
+    <div>
+        <label>City: </label>
+        <input type="text" [(ngModel)]="relation.City" class="form-control"/>
+    </div>
+    <div>
+        <label>Country: </label>
+        <select [(ngModel)] = "relation.Country" name="country" >
+            <option value="" selected></option>
+            <option *ngFor="let country of countries" [value]="country.Name">
+                {{country.Name}}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label>Postal Code: </label>
+        <input type="text" [(ngModel)]="relation.PostalCode" class="form-control"/>
+    </div>
+    <div>
+        <label>Street Number: </label>
+        <input type="number" [(ngModel)]="relation.StreetNumber" class="form-control" />
+    </div>  
+    <div>
+        <label>Categories: </label>
+        <select [(ngModel)] = "relation.Categories" id="relation-category" multiple="multiple">
+            <option *ngFor="let category of categories" [value]="category.Name">
+                {{category.Name}}
+            </option>
+        </select>
+    </div>
+        <div>
+            <p><button  class="btn btn-default" (click)="Save(myForm)">Create</button></p>
+            <p><button class="btn btn-default" (click)="Cancel()">Back to list</button></p>
+        </div>
+    </fieldset>
+</ng-template>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
