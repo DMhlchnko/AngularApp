@@ -1,4 +1,62 @@
 
 html, body {
-    height: 100%;
+    height: 90%;
 }
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #eceffc;
+}
+  
+  
+
+form{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    min-height: 50vh;
+    width:300px;
+    padding:5px;
+}
+select {
+    width: 100%;
+    padding:10px;
+    border-radius:10px;
+  }
+  button {
+
+    appearance:none;
+    -webkit-appearance:none;
+
+    padding:10px;
+    border:none;
+    background-color:#3F51B5;
+    color:#fff;
+    font-weight:600;
+    border-radius:5px;
+    width:100%;
+  }
+
+  input[type=submit]{
+    padding:10px;
+    background-color:#5f6cb5;
+    color:#fff;
+    font-weight:600;
+    border-radius:5px;
+    width:100%;
+  }
+  
+  input[type=text]:focus {
+    background-color: #acc7f1;
+    border-color: #000;
+  }
+  input[type=number]:focus {
+    background-color: #acc7f1;
+    border-color: #000;
+  }
+  
+
+  

@@ -105,15 +105,15 @@ export class RelationComponent implements OnInit
 
     Save(form:NgForm)
     {
-        console.log(form);
+        console.log(form);;
         if(this.relation.Id == undefined)
         {
             console.log(this.relation)
-            if(form.valid == true){
-                this.http.CreateRelation(this.relation)
+            
+            this.http.CreateRelation(this.relation)
                 .subscribe(result => 
-                    this.LoadRelations());
-            }
+            this.LoadRelations());
+            
         }
         else{
             

@@ -9,9 +9,9 @@ import { FormsModule} from '@angular/forms';
     RelationComponent 
  ],
   imports: [
+    FormsModule,
     BrowserModule,
     HttpClientModule,
-    FormsModule
   ],
   bootstrap: [RelationComponent],
 })
